@@ -1,0 +1,44 @@
+.hideshow {
+    cursor: pointer;
+    padding: 20px;
+    background-color: whitesmoke;
+    width: 300px;
+    text-align: center;
+    border-radius: 20px;
+    outline: none;
+    border: none;
+  }
+  .body {
+    padding-left: 40%;
+    .input_user {
+      display: flex;
+      flex-direction: column;
+      label {
+        gap: 5px;
+      }
+      input {
+        width: 40%;
+        outline: none;
+        border: none;
+        border-radius: 5px;
+        background-color:ghostwhite;
+        padding: 4px;
+        margin-bottom: 8px;
+        &:focus {
+          color:black;
+          ::placeholder {
+            color: transparent;
+          }
+        }
+      }
+    }
+    .btn_user {
+      button {
+        border: none;
+        outline: none;
+        border-radius: 13px;
+        padding: 10px;
+      }
+      margin-bottom: 15px;
+    }
+  }
