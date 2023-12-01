@@ -25,6 +25,7 @@ import CreateNewCategory from "./Categories/CreateNewCategory";
 import AllCategories from "./Categories/AllCategories";
 import { persistor } from "../../redux/store/Store";
 import Dashboard from "./Dashboard/Dashboard";
+import { useEffect } from "react";
 const { Header, Content, Footer, Sider } = Layout;
 function getItem(label, key, icon, children) {
   return {
@@ -161,13 +162,14 @@ const Admin = () => {
 
             {selectedMenuItem === "3" && (
               <>
-                {/* <Redirect to="/admin/product/allproducts" /> */}
+                {/* <Redirect to="/admin/user/allUsers" /> */}
                 <Users />
               </>
             )}
             {selectedMenuItem === "1" && (
               <>
                 <Dashboard />
+                {/* history.push("/admin/dashboard") */}
               </>
             )}
             {selectedMenuItem === "4" && (

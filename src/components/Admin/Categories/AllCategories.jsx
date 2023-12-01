@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Table, Badge, Pagination } from "antd";
+import { Table, Badge, Pagination, Divider } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllCategories } from "../../../redux/apiRequest";
 const columns = [
@@ -14,17 +14,40 @@ const columns = [
   {
     title: "Status",
     dataIndex: "status",
-    render: () => <Badge status="success" text="active" />,
+    render: (status) => (
+      <Badge status={status === "active" ? "success" : "error"} text={status} />
+    ),
   },
   {
     title: "Action",
     key: "operation",
-    width: 100,
-    render: () => <a>action</a>,
+    render: (text, record) => (
+      <span>
+        <a onClick={() => viewRecord(record)}>View</a>
+        <Divider type="vertical" />
+        <a onClick={() => editRecord(record)}>Edit</a>
+        <Divider type="vertical" />
+        <a onClick={() => removeRecord(record)}>Remove</a>
+      </span>
+    ),
   },
 ];
 
 const AllCategories = () => {
+  const viewRecord = (record) => {
+    console.log("View Record", record);
+    // Implement your view logic here
+  };
+
+  const editRecord = (record) => {
+    console.log("Edit Record", record);
+    // Implement your edit logic here
+  };
+
+  const removeRecord = (record) => {
+    console.log("Remove Record", record);
+    // Implement your remove logic here
+  };
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const onSelectChange = (newSelectedRowKeys) => {
     console.log("selectedRowKeys changed: ", newSelectedRowKeys);
@@ -73,15 +96,15 @@ const AllCategories = () => {
   let categories = useSelector(
     (state) => state.categories.categories?.allCategories
   );
-  console.log(categories);
+  // console.log(categories);
   const dispatch = useDispatch();
-  let { allCategories, totalPage } = categories || {};
+  let { data, totalPage } = categories || {};
 
   const handlePaginationChange = async (pageNumber, pageSize) => {
     setCurrentPage(pageNumber);
     setPageSize(pageSize);
-    console.log("Page: ", pageNumber);
-    console.log("Page Size: ", pageSize);
+    // console.log("Page: ", pageNumber);
+    // console.log("Page Size: ", pageSize);
   };
   useEffect(() => {
     dispatch(
@@ -93,11 +116,11 @@ const AllCategories = () => {
     );
   }, [currentPage, pageSize, dispatch, user]);
   let memoizedData = React.useMemo(() => {
-    return allCategories?.map((category, index) => ({
+    return data?.map((category, index) => ({
       ...category,
       key: index,
     }));
-  }, [allCategories]);
+  }, [data]);
   return (
     <>
       <Table

@@ -50,11 +50,11 @@ export const createAxios = (user) => {
     async (config) => {
       let date = new Date();
       let decodedToken = jwt_decode(user?.accessToken?.split(" ")[1]);
-      console.log(decodedToken);
+      // console.log(decodedToken);
       if (decodedToken.exp < date.getTime() / 1000) {
         console.log(user.user);
         let data = await refreshToken(user?.user);
-        console.log(data);
+        // console.log(data);
         let refreshedUser = {
           ...user.user,
           accessToken: data.accessToken,

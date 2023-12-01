@@ -325,16 +325,35 @@ export const createAnUser = createAsyncThunk(
   }
 );
 
-export const getAllProducts = async (dispatch) => {
-  dispatch(reset1());
-  dispatch(getProductsStart());
-  try {
-    const res = await axios.get("http://localhost:3000/products/all");
-    dispatch(getProductsSuccess(res.data));
-  } catch (error) {
-    dispatch(getProductsFailed());
+export const getAllProducts = createAsyncThunk(
+  "products/getAllProducts",
+  async ({ userObject, page, limit }, {rejectWithValue }) => {
+    // getState: Lấy state hiện tại
+    // const { categories } = getState();
+    // Kiểm tra xem dữ liệu cho trang này đã được tải chưa
+    // if (categories[page]) {
+    //   // Nếu đã tải, trả về dữ liệu từ state
+    //   return categories[page];
+    // }
+    try {
+      const axiosJWT = createAxios(userObject);
+      const response = await axiosJWT.get(
+        `http://localhost:3000/api/v1/product/all?page=${page}&limit=${limit}`,
+        {
+          headers: {
+            token: userObject?.accessToken,
+          },
+          withCredentials: true,
+        }
+      );
+      // Nếu chưa tải, gọi API và lưu dữ liệu vào state
+      // return { ...response.data, page };
+      return response;
+    } catch (error) {
+      return rejectWithValue("FAILED", error.message);
+    }
   }
-};
+);
 
 export const GetAProduct = async (dispatch, id) => {
   dispatch(getProductsStart());
@@ -395,7 +414,7 @@ export const getAllCategories = createAsyncThunk(
       );
       // Nếu chưa tải, gọi API và lưu dữ liệu vào state
       // return { ...response.data, page };
-      return response.data;
+      return response;
     } catch (error) {
       return rejectWithValue("FAILED", error.message);
     }

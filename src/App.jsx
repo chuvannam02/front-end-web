@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from "react-router-dom";
 import Register from "../src/components/Register/Register";
 import Home from "./components/Home/Home";
 import Login from "./components/Login/Login";
@@ -7,11 +12,13 @@ import Error from "../src/Error.jsx";
 import NavBar from "./components/NavBar/NavBar";
 import Footer from "./components/Footer/Footer";
 import Products from "./components/Admin/Products/Products";
-// import UserLayout from "./components/User/UserLayout";
-// import AdminLayout from "./components/Admin/AdminLayout";
-// import AllUsers from "./components/Admin/User/AllUsers";
+import Revenue from "./components/Admin/Dashboard/Revenue/Revenue";
+import Subscription from "./components/Admin/Dashboard/Subscription/Subscription";
 import AllCategories from "./components/Admin/Categories/AllCategories.jsx";
 import AdminRoute from "./components/Admin/AdminRoute";
+import Dashboard from "./components/Admin/Dashboard/Dashboard.jsx";
+import Users from "./components/Admin/User/Users.jsx";
+import Cart from "./components/Cart/Cart";
 // import UserRoute from "./components/User/UserRoute";
 function App() {
   return (
@@ -35,6 +42,9 @@ function App() {
               {/* <ProductDetailed /> */}
             </Route>
 
+            <Route path="/cart">
+              <Cart />
+            </Route>
             <Route exact path="/" component={Home} />
             {/* <Route path="/homepage"><Homepage /></Route> */}
             {/* <UserRoute path="/cart"><Cart /></UserRoute> */}
@@ -44,13 +54,20 @@ function App() {
                 <ResetPassword />
               </UserRoute> */}
 
-            <AdminRoute path="/admin" exact>
+            <AdminRoute path="/admin">
               <Admin>
+                <Redirect from="/admin" to="/admin/dashboard" exact />
+                <Route path="/admin/dashboard" component={Dashboard} />
                 <Route path="/admin/product/allProducts" component={Products} />
-                <Route path="/admin/categories/allCategories" component={AllCategories} />
+                <Route
+                  path="/admin/categories/allCategories"
+                  component={AllCategories}
+                />
+                <Route path="/admin/user/allUsers" component={Users} />
+                <Route path="/admin/revenue" component={Revenue} />
+                <Route path="/admin/subscription" component={Subscription} />
               </Admin>
             </AdminRoute>
-
             {/* <AdminRoute path="/admin/user/allusers">
               <AllUsers />
             </AdminRoute> */}

@@ -41,16 +41,25 @@ const CreateNewCategory = () => {
 
   const onFinish = async (values) => {
     await setValues(values);
-    const res = dispatch(createACategory(user, values));
-    if (res) {
+    console.log(values);
+    try {
+      const res = await dispatch(
+        createACategory({ userObject: user, newCategory: values })
+      );
       notify1();
-    } else {
+      form.resetFields(); // Reset the form fields after submission
+    } catch (error) {
+      console.error(error);
       notify2();
     }
   };
 
   const onReset = () => {
     form.resetFields();
+    setValues({
+      status: "active",
+      name: "",
+    });
   };
   return (
     <>
