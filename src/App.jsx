@@ -19,6 +19,8 @@ import AdminRoute from "./components/Admin/AdminRoute";
 import Dashboard from "./components/Admin/Dashboard/Dashboard.jsx";
 import Users from "./components/Admin/User/Users.jsx";
 import Cart from "./components/Cart/Cart";
+import ProductForUser from "./components/ProductForUser/ProductForUser.jsx";
+import ProductDetailed from "./components/ProductForUser/Detail/ProductDetail.jsx";
 // import UserRoute from "./components/User/UserRoute";
 function App() {
   return (
@@ -36,10 +38,10 @@ function App() {
               <Route path="/login" component={Login} />
             </Route>
             <Route exact path="/products/all">
-              {/* <Products /> */}
+              <ProductForUser />
             </Route>
             <Route exact path="/products/all/:id">
-              {/* <ProductDetailed /> */}
+              <ProductDetailed />
             </Route>
 
             <Route path="/cart">

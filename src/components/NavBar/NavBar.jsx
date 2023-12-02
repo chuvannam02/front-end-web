@@ -87,7 +87,9 @@ const NavBar = () => {
     // Spread the user object to create a copy.
     const userObject = { ...user };
     console.log(userObject);
-    await dispatch(logoutUser(userObject));
+    await dispatch(logoutUser(userObject)).then(() => {
+      persistor.purge(); // Xóa state được lưu trữ khi người dùng đăng xuất
+    });;
     localStorage.setItem("token", "");
     history.push("/login");
   };
@@ -146,19 +148,12 @@ const NavBar = () => {
                 <NavLink to="/account" className="navbar-account">
                   Tài Khoản
                 </NavLink>
-                <NavLink to="/cart" className="navbar-cart-review">
-              <BsCart3 />
-              <p>Giỏ hàng của bạn</p>
-            </NavLink>
-            <NavLink
-                  to="/"
-                  className="navbar-logout"
-                  onClick={handleLogout}>
-                  Đăng xuất
+                <NavLink to="/homepage" className="navbar-homepage">
+                  HomePage
                 </NavLink>
               </>
             )}
-            {/* <div className="dropdown">
+            <div className="dropdown">
               <button className="dropbtn">Bảng điều khiển</button>
               <div className="dropdown-content">
                 <NavLink
@@ -168,7 +163,7 @@ const NavBar = () => {
                   Đăng xuất
                 </NavLink>
               </div>
-            </div> */}
+            </div>
           </>
         ) : (
           <>
@@ -180,9 +175,9 @@ const NavBar = () => {
               <VscAccount />
               Đăng ký
             </NavLink>
-            <NavLink to="/cart" className="navbar-cart-review">
+            <NavLink to="/cart-review" className="navbar-cart-review">
               <BsCart3 />
-              <p>Giỏ hàng của bạn</p>
+              <p>Giỏ hàng của bạn (0) sản phẩm</p>
             </NavLink>
           </>
         )}

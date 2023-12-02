@@ -3,6 +3,7 @@ import authSlice from "../reducer/authSlice";
 import userSlice from "../reducer/userSlice";
 import cartSlice from "../reducer/cartSlice";
 import productSlice from "../reducer/productSlice";
+import { productService } from "../../components/ProductForUser/ProductForUser";
 import {
   persistStore,
   persistReducer,
@@ -21,6 +22,7 @@ const persistConfig = {
   storage,
 };
 const rootReducer = combineReducers({
+  [productService.reducerPath]: productService.reducer,
   auth: authSlice,
   users: userSlice,
   carts: cartSlice,
@@ -34,6 +36,6 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
-    }),
+    }).concat(productService.middleware),
 });
 export let persistor = persistStore(store);

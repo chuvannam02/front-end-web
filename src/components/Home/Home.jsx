@@ -29,9 +29,12 @@ const contentStyle = {
 const Home = () => {
   const [products, setProducts] = useState([]);
   useEffect(() => {
-    fetch("http://localhost:3000/api/v1/product-without-auth/all")
+    fetch("http://localhost:3000/api/v1/product-without-authv1/all")
       .then((res) => res.json())
-      .then((products) => setProducts(products));
+      .then((products) => {
+        setProducts(products);
+      })
+      .catch((error) => console.error(error));
   });
   const rows = products.reduce((rows, product, index) => {
     if (index % 3 === 0) {

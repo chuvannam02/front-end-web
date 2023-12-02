@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getAllProducts } from "../apiRequest";
+import { GetAProduct, getAllProducts } from "../apiRequest";
 const initialState = {
   product: {
     Product: null,
     isFetching: false,
     error: false,
-  }
+  },
 };
 const productSlice = createSlice({
   name: "products",
@@ -78,7 +78,20 @@ const productSlice = createSlice({
         state.products.limit = action.payload.limit;
       })
       .addCase(getAllProducts.rejected, (state) => {
-        state.products.error = true;
+        state.product.error = true;
+      })
+      .addCase(GetAProduct.pending, (state) => {
+        state.products.isFetching = true;
+        state.products.error = null;
+      })
+      .addCase(GetAProduct.fulfilled, (state, action) => {
+        state.product.isFetching = false;
+        state.product.error = null;
+        // Lưu dữ liệu vào state dựa trên trang
+        state.product.Product = action.payload;
+      })
+      .addCase(GetAProduct.rejected, (state) => {
+        state.product.error = true;
       });
   },
 });
@@ -89,7 +102,7 @@ export const {
   getProductStart,
   getProductSuccess,
   getProductFailed,
-  reset1
+  reset1,
 } = productSlice.actions;
 
 export default productSlice.reducer;

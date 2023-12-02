@@ -327,7 +327,7 @@ export const createAnUser = createAsyncThunk(
 
 export const getAllProducts = createAsyncThunk(
   "products/getAllProducts",
-  async ({ userObject, page, limit }, {rejectWithValue }) => {
+  async ({ userObject, page, limit }, { rejectWithValue }) => {
     // getState: Lấy state hiện tại
     // const { categories } = getState();
     // Kiểm tra xem dữ liệu cho trang này đã được tải chưa
@@ -354,16 +354,19 @@ export const getAllProducts = createAsyncThunk(
     }
   }
 );
-
-export const GetAProduct = async (dispatch, id) => {
-  dispatch(getProductsStart());
-  try {
-    const response = await axios.get("http://localhost:3000/products/" + id);
-    dispatch(getProductSuccess(response.data));
-  } catch (error) {
-    dispatch(getProductsFailed());
+export const GetAProduct = createAsyncThunk(
+  "products/getAProduct",
+  async ({ id }, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        "http://localhost:3000/api/v1/product/find/" + id
+      );
+      return response;
+    } catch (error) {
+      return rejectWithValue("FAILED", error.message);
+    }
   }
-};
+);
 
 export const createACategory = createAsyncThunk(
   "categories/createNewCategory",
@@ -393,7 +396,7 @@ export const createACategory = createAsyncThunk(
 
 export const getAllCategories = createAsyncThunk(
   "categories/getAllCategories",
-  async ({ userObject, page, limit }, {rejectWithValue }) => {
+  async ({ userObject, page, limit }, { rejectWithValue }) => {
     // getState: Lấy state hiện tại
     // const { categories } = getState();
     // Kiểm tra xem dữ liệu cho trang này đã được tải chưa
