@@ -21,7 +21,7 @@ import Users from "./components/Admin/User/Users.jsx";
 import Cart from "./components/Cart/Cart";
 import ProductForUser from "./components/ProductForUser/ProductForUser.jsx";
 import ProductDetailed from "./components/ProductForUser/Detail/ProductDetail.jsx";
-// import UserRoute from "./components/User/UserRoute";
+import CheckoutSuccess from "./components/Cart/CheckoutSuccess.jsx";
 function App() {
   return (
     <>
@@ -46,6 +46,9 @@ function App() {
 
             <Route path="/cart">
               <Cart />
+            </Route>
+            <Route path="/checkout-success">
+              <CheckoutSuccess />
             </Route>
             <Route exact path="/" component={Home} />
             {/* <Route path="/homepage"><Homepage /></Route> */}

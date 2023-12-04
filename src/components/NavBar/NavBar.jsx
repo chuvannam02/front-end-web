@@ -5,9 +5,9 @@ import { Redirect } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../redux/apiRequest";
-
-import { UserOutlined } from "@ant-design/icons";
-import { Dropdown, message, Space, Input } from "antd";
+import { HiOutlineShoppingBag } from "react-icons/hi2";
+import { UserOutlined, DownOutlined } from "@ant-design/icons";
+import { Dropdown, message, Space, Input, Button } from "antd";
 import { AudioOutlined } from "@ant-design/icons";
 
 import { BsCart3 } from "react-icons/bs";
@@ -69,11 +69,18 @@ const suffix = (
 const onSearch = (value, _e, info) => console.log(info?.source, value);
 
 const NavBar = () => {
+  const cart = useSelector((state) => state.carts?.cart);
+  const getTotalQuantity = () => {
+    let total = 0;
+    cart?.forEach((item) => {
+      total += item.quantity;
+    });
+    return total;
+  };
   let isLogin = useSelector((state) => state.auth?.login.isLogin);
   const user = useSelector((state) => {
     return state.auth.login?.currentUser;
   });
-  // console.log(user);
   const history = useHistory();
   const dispatch = useDispatch();
   // useNavigate được sử dụng ở version 6 của react-router-dom
@@ -89,7 +96,7 @@ const NavBar = () => {
     console.log(userObject);
     await dispatch(logoutUser(userObject)).then(() => {
       persistor.purge(); // Xóa state được lưu trữ khi người dùng đăng xuất
-    });;
+    });
     localStorage.setItem("token", "");
     history.push("/login");
   };
@@ -115,13 +122,17 @@ const NavBar = () => {
             src="../../../public/images/logo.png"
             alt="LOGO"
             width={100}
-            height={100}></img>
+            height={100}
+          ></img>
         </NavLink>
-        <Space wrap>
-          <Dropdown.Button menu={menuProps} onClick={handleButtonClick}>
-            Dropdown
-          </Dropdown.Button>
-        </Space>
+        <Dropdown menu={menuProps}>
+          <Button>
+            <Space>
+              Danh mục sản phẩm
+              <DownOutlined />
+            </Space>
+          </Button>
+        </Dropdown>
         <Search
           aria-label="Search"
           placeholder="Nhập từ khóa tìm kiếm"
@@ -136,6 +147,10 @@ const NavBar = () => {
         <NavLink to="/" exact className="navbar-home">
           Trang chủ
         </NavLink>
+        <NavLink to="/products/all" className="navbar-product">
+          <HiOutlineShoppingBag />
+          Sản phẩm
+        </NavLink>
         {user && isLogin ? (
           <>
             <p className="navbar-user">
@@ -148,8 +163,19 @@ const NavBar = () => {
                 <NavLink to="/account" className="navbar-account">
                   Tài Khoản
                 </NavLink>
-                <NavLink to="/homepage" className="navbar-homepage">
+                {/* <NavLink to="/homepage" className="navbar-homepage">
                   HomePage
+                </NavLink> */}
+                <NavLink to="/cart" className="navbar-cart-review">
+                  <BsCart3 />
+                  Giỏ hàng của bạn ({getTotalQuantity() || 0}) sản phẩm
+                </NavLink>
+                <NavLink
+                  to="/"
+                  className="navbar-logout"
+                  onClick={handleLogout}
+                >
+                  Đăng xuất
                 </NavLink>
               </>
             )}
@@ -159,7 +185,8 @@ const NavBar = () => {
                 <NavLink
                   to="/"
                   className="navbar-logout"
-                  onClick={handleLogout}>
+                  onClick={handleLogout}
+                >
                   Đăng xuất
                 </NavLink>
               </div>
@@ -175,9 +202,9 @@ const NavBar = () => {
               <VscAccount />
               Đăng ký
             </NavLink>
-            <NavLink to="/cart-review" className="navbar-cart-review">
+            <NavLink to="/cart" className="navbar-cart-review">
               <BsCart3 />
-              <p>Giỏ hàng của bạn (0) sản phẩm</p>
+              Giỏ hàng của bạn ({getTotalQuantity() || 0}) sản phẩm
             </NavLink>
           </>
         )}

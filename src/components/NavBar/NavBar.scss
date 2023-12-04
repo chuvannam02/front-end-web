@@ -3,7 +3,7 @@
   -webkit-box-shadow: 0 3px 5px rgba(57, 63, 72, 0.3);
   -moz-box-shadow: 0 3px 5px rgba(57, 63, 72, 0.3);
   box-shadow: 0 3px 5px rgba(57, 63, 72, 0.3);
-  z-index:1;
+  z-index: 1;
   top: 0;
   width: 100%;
   padding: 0 4.8rem;
@@ -19,6 +19,7 @@
       color: #1435c3 !important;
     }
   }
+
   .logo {
     height: 5rem;
   }
@@ -69,6 +70,13 @@
     height: 5rem;
   }
   .navbar-login {
+    color: #82869e;
+    text-decoration: none;
+    &:hover {
+      color: #1435c3 !important;
+    }
+  }
+  .navbar-product {
     color: #82869e;
     text-decoration: none;
     &:hover {
