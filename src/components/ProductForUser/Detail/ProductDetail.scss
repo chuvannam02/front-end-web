@@ -1,0 +1,217 @@
+.app {
+    display: flex;
+    .detail_info {
+      padding: 28px 0px 16px 0;
+      max-width: 370px;
+      .additional_info {
+        .hide {
+          cursor: pointer;
+        }
+      }
+      .show {
+        cursor: pointer;
+      }
+    }
+  
+    .product_container {
+      display: flex;
+      padding: 16px 0 16px 28px;
+      position: relative;
+      .content_left {
+        width: 40%;
+        background-color: white;
+        .current_img {
+          transition: 0.3s ease-in-out;
+          margin-bottom: 5px;
+          img {
+            width: 370px;
+            height: 330px;
+          }
+        }
+        .review_images {
+          display: flex;
+          gap: 15px;
+          .review_images_small {
+            gap: 5px;
+            transition: 0.3s ease-in-out;
+            .active {
+              border: 1px solid rgb(11, 116, 229);
+            }
+            img {
+              cursor: pointer;
+              border-radius: 4px;
+              width: 70px;
+              height: 70px;
+            }
+          }
+        }
+      }
+      .content_right {
+        width: 60%;
+        background-color: white;
+        border-left: 2px solid #fafafa;
+        padding-left: 10px;
+        margin-left: 80px;
+        .main_content {
+          display: flex;
+          .detail_info {
+            margin-left: 60px;
+          }
+          .basic_info {
+            .title {
+              font-size: 24px;
+              font-weight: 600;
+              text-align: left;
+              padding: 10px 0;
+            }
+            .price {
+              font-size: 32px;
+              font-weight: 700;
+              padding: 5px 0 15px 0;
+            }
+            .size {
+              display: flex;
+              gap: 20px;
+              .size_item {
+                display: flex;
+                list-style-type: none;
+                font-size: 20px;
+                gap: 13px;
+              }
+            }
+            .action {
+              display: flex;
+              flex-direction: column;
+              gap: 10px;
+  
+              .input_quantity {
+                label {
+                  font-size: 15px;
+                  line-height: 1.6;
+                }
+                .disable {
+                  cursor: pointer;
+                  width: 30px;
+                  background-color: rgb(255, 255, 255);
+                  border: 1px solid rgb(236, 236, 236);
+                  text-transform: none;
+                  font-family: inherit;
+                  font-size: 100%;
+                  line-height: 1.15;
+                  margin: 0px;
+                  height: 30px;
+                  color: rgb(36, 36, 36);
+                  font-size: 14px;
+                  text-align: center;
+                  outline: none;
+                  outline-color: initial;
+                  outline-style: none;
+                  outline-width: initial;
+                  transition: border-color 0.15s ease-in-out 0s,
+                    box-shadow 0.15s ease-in-out 0s;
+                  transition-property: border-color, box-shadow;
+                  transition-duration: 0.15s, 0.15s;
+                  transition-timing-function: ease-in-out, ease-in-out;
+                  transition-delay: 0s, 0s;
+                  &:hover {
+                    background-color: rgb(236 236 236);
+                  }
+                }
+                display: flex;
+                margin-top: 8px;
+                .quantity {
+                  text-align: center;
+                  width: 40px;
+                  border: 1px solid rgb(236, 236, 236);
+                  height: 30px;
+                  color: rgb(36, 36, 36);
+                  outline: none;
+                  font-size: 14px;
+                  &:hover {
+                    cursor: text;
+                  }
+                  &:focus {
+                    border: 1px solid rgb(102, 175, 237);
+                    box-shadow: rgb(0 0 0 / 8%) 0px 1px 1px inset,
+                      rgb(102 175 233 / 60%) 0px 0px 8px;
+                  }
+                }
+                .add {
+                  color: rgb(36, 36, 36);
+                  font-size: 14px;
+                  text-align: center;
+                  cursor: pointer;
+                  text-transform: none;
+                  line-height: 1.15;
+                  font-family: inherit;
+                  border-left: none;
+                  border-radius: 0px 4px 4px 0px;
+                  padding: 4px;
+                  width: 30px;
+                  background-color: rgb(255, 255, 255);
+                  border: 1px solid rgb(236, 236, 236);
+                  &:hover {
+                    background-color: rgb(236 236 236);
+                  }
+                }
+              }
+  
+              .buy {
+                background-color: rgb(255, 57, 69);
+                color: white;
+                border: none;
+                outline: none;
+                border-radius: 4px;
+                height: 48px;
+                font-size: 15px;
+                line-height: 24px;
+                font-weight: 500;
+                text-transform: capitalize;
+                min-width: 190px;
+                justify-content: center;
+                width: 100%;
+                max-width: 300px;
+                cursor: pointer;
+                &:hover {
+                  opacity: 0.7;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    .shopping-cart {
+      background-color: rgb(226, 226, 226);
+      position: relative;
+      padding: 15px 20px;
+      border-radius: 50%;
+      position: fixed;
+      bottom: 40px;
+      right: 7%;
+      z-index: 1;
+      cursor: pointer;
+      &:active {
+        box-shadow: 0 4px 4px gray;
+      }
+      &:hover {
+        box-shadow: 0 4px 4px gray;
+      }
+    }
+  
+    #cartIcon {
+      font-size: 20px;
+      cursor: pointer;
+      height: 20px;
+    }
+  
+    .shopping-cart > p {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background-color: red;
+      padding: 1px 8px;
+      color: white;
+      border-radius: 50%;
+    }
+  }

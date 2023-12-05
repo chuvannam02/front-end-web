@@ -48,7 +48,7 @@ const Home = () => {
   const getTotalQuantity = () => {
     let total = 0;
     cart?.forEach((item) => {
-      total += item.quantity;
+      total += Number(item.quantity);
     });
     return total;
   };

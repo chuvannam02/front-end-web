@@ -15,6 +15,7 @@ import { VscAccount } from "react-icons/vsc";
 import { SlLogin } from "react-icons/sl";
 import "./NavBar.scss";
 
+import { persistor } from "../../redux/store/Store";  
 const handleButtonClick = (e) => {
   message.info("Click on left button.");
   console.log("click left button", e);
@@ -73,7 +74,7 @@ const NavBar = () => {
   const getTotalQuantity = () => {
     let total = 0;
     cart?.forEach((item) => {
-      total += item.quantity;
+      total += Number(item.quantity);
     });
     return total;
   };
