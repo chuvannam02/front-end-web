@@ -25,7 +25,7 @@ import CreateNewCategory from "./Categories/CreateNewCategory";
 import AllCategories from "./Categories/AllCategories";
 import { persistor } from "../../redux/store/Store";
 import Dashboard from "./Dashboard/Dashboard";
-import { useEffect } from "react";
+import CreateNewProduct from "./Products/CreateNewProduct";
 const { Header, Content, Footer, Sider } = Layout;
 function getItem(label, key, icon, children) {
   return {
@@ -44,7 +44,7 @@ const items = [
   ]),
   getItem("Products", "sub2", <PiShoppingBagOpen />, [
     getItem("Product List", "5"),
-    getItem("Product Details", "6"),
+    getItem("Create New Product", "6"),
   ]),
   getItem("Categories", "sub3", <BiCategoryAlt />, [
     getItem("Category List", "7"),
@@ -185,6 +185,11 @@ const Admin = () => {
             {selectedMenuItem === "8" && (
               <>
                 <CreateNewCategory />
+              </>
+            )}
+            {selectedMenuItem === "6" && (
+              <>
+                <CreateNewProduct />
               </>
             )}
             {selectedMenuItem === "5" && (

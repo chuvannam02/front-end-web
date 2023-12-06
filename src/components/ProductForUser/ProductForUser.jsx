@@ -49,9 +49,9 @@ const ProductForUser = () => {
     error,
     refetch,
   } = useGetAllProductsQuery(currentPage, limit, searchTerm);
-  useEffect(() => {
-    console.log(productsList);
-  }, [productsList]);
+  // useEffect(() => {
+  //   console.log(productsList);
+  // }, [productsList]);
   const handlePaginationChange = (page, limit) => {
     setCurrentPage(page);
     setLimit(limit);
@@ -60,19 +60,20 @@ const ProductForUser = () => {
   return (
     <>
       {isLoading ? (
-         <Spin spinning={true} fullscreen />
+        <Spin spinning={true} fullscreen="true" />
       ) : (
         <>
-        <Breadcrumb style={{ margin: "10px 0 20px 40px" }}
-        items={[
-          {
-            title: <NavLink to="/">Trang chủ</NavLink>,
-          },
-          {
-            title: "Sản phẩm",
-          }
-        ]}
-      />
+          <Breadcrumb
+            style={{ margin: "10px 0 20px 40px" }}
+            items={[
+              {
+                title: <NavLink to="/">Trang chủ</NavLink>,
+              },
+              {
+                title: "Sản phẩm",
+              },
+            ]}
+          />
           <Input
             placeholder="Tìm kiếm"
             value={searchTerm}
@@ -84,12 +85,15 @@ const ProductForUser = () => {
               return (
                 <div key={index}>
                   <div className="card">
-                    <h4>{product.name}</h4>
+                    <h4>{product.name}</h4>                
                     <img
-                      src={product.images[0]}
+                      src={typeof product.images[0] === 'object' ? product.images[0].url : product.images[0]}
                       alt="products"
                       className="images"
+                      width={300}
+                      height={300}
                     />
+
                     <h4 className="price">Giá: {product.price}</h4>
                     <h5>Giá Khuyến Mãi: {product.salePrice}</h5>
                     <button className="detail">

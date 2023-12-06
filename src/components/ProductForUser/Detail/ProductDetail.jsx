@@ -17,16 +17,17 @@ const Images = React.memo(({ src, alt, onClick, isActive }) => (
     alt={alt}
     onClick={onClick}
     className={isActive ? "active" : ""}
+    style={{
+      maxWidth: "auto",
+      height: "auto",
+    }}
   />
 ));
 const ProductDetailed = () => {
   const [photoIndex1, setPhotoIndex1] = useState(0);
   const [isOpen1, setIsOpen1] = useState(false);
   const aProduct = useSelector((state) => state.products.product?.Product);
-  console.log(aProduct);
   const id = useParams();
-  console.log(id);
-  console.log(aProduct);
   const [isLoading, setIsLoading] = useState(false);
   const [img, setImg] = useState("");
   const history = useHistory();
@@ -41,14 +42,24 @@ const ProductDetailed = () => {
   }, []);
   useEffect(() => {
     if (aProduct && aProduct.data && aProduct.data.images) {
-      setImg(aProduct.data.images[0]);
+      setImg(
+        typeof aProduct.data.images[0] === "object"
+          ? aProduct.data.images[0].url
+          : aProduct.data.images[0]
+      );
     }
   }, [aProduct]);
   //   Open Light box when click images
   const images = [
-    aProduct.data.images[0],
-    aProduct.data?.images[1],
-    aProduct.data?.images[2],
+    typeof aProduct.data.images[0] === "object"
+      ? aProduct.data.images[0].url
+      : aProduct.data.images[0],
+    typeof aProduct.data.images[1] === "object"
+      ? aProduct.data.images[1].url
+      : aProduct.data.images[1],
+    typeof aProduct.data.images[2] === "object"
+      ? aProduct.data.images[2].url
+      : aProduct.data.images[2],
   ];
   const [isOpen, setIsOpen] = useState(false);
   const [photoIndex, setPhotoIndex] = useState(0);
@@ -98,7 +109,12 @@ const ProductDetailed = () => {
             <div>
               <div className="product_container">
                 <div className="content_left">
-                  <Image width={300} src={img} alt="Ảnh hiện tại" />
+                  <Image
+                    src={img}
+                    alt="Ảnh hiện tại"
+                    height={350}
+                    width={350}
+                  />
                   {/* <div className="current_img"> */}
                   {/* <Image
                       width={300}
@@ -146,31 +162,72 @@ const ProductDetailed = () => {
                     */}
                     <div className="review_images_small">
                       <Images
-                        src={aProduct.data.images[0]}
+                        src={
+                          typeof aProduct.data.images[0] === "object"
+                            ? aProduct.data.images[0].url
+                            : aProduct.data.images[0]
+                        }
                         alt="Ảnh hiện tại"
-                        onClick={() => setImg(aProduct?.data?.images[0])}
-                        isActive={img === aProduct?.data?.images[0]}
+                        onClick={() =>
+                          setImg(
+                            typeof aProduct.data.images[0] === "object"
+                              ? aProduct.data.images[0].url
+                              : aProduct.data.images[0]
+                          )
+                        }
+                        isActive={
+                          (img === typeof aProduct.data.images[0]) === "object"
+                            ? aProduct.data.images[0].url
+                            : aProduct.data.images[0]
+                        }
                       />
                     </div>
                     <div className="review_images_small">
                       <Images
-                        src={aProduct.data.images[1]}
+                        src={
+                          typeof aProduct.data.images[1] === "object"
+                            ? aProduct.data.images[1].url
+                            : aProduct.data.images[1]
+                        }
                         alt="Ảnh hiện tại"
-                        onClick={() => setImg(aProduct?.data?.images[1])}
-                        isActive={img === aProduct?.data?.images[1]}
+                        onClick={() =>
+                          setImg(
+                            typeof aProduct.data.images[1] === "object"
+                              ? aProduct.data.images[1].url
+                              : aProduct.data.images[1]
+                          )
+                        }
+                        isActive={
+                          (img === typeof aProduct.data.images[1]) === "object"
+                            ? aProduct.data.images[1].url
+                            : aProduct.data.images[1]
+                        }
                       />
                     </div>
                     <div className="review_images_small">
                       <Images
-                        src={aProduct?.data.images[2]}
+                        src={
+                          typeof aProduct.data.images[2] === "object"
+                            ? aProduct.data.images[2].url
+                            : aProduct.data.images[2]
+                        }
                         alt="Ảnh hiện tại"
-                        onClick={() => setImg(aProduct?.data?.images[2])}
-                        isActive={img === aProduct?.data?.images[2]}
+                        onClick={() =>
+                          setImg(
+                            typeof aProduct.data.images[2] === "object"
+                              ? aProduct.data.images[2].url
+                              : aProduct.data.images[2]
+                          )
+                        }
+                        isActive={
+                          typeof aProduct.data.images[2] === "object"
+                            ? aProduct.data.images[2].url
+                            : aProduct.data.images[2]
+                        }
                       />
                     </div>
                   </div>
                 </div>
-
                 <div className="content_right">
                   <div className="main_content">
                     <div className="basic_info">
