@@ -1,6 +1,6 @@
 import Admin from "../Admin";
 import React, { useState, useEffect } from "react";
-import { Table, Badge, Pagination, Divider } from "antd";
+import { Table, Divider,Button } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllProducts } from "../../../redux/apiRequest";
 const columns = [
@@ -85,12 +85,18 @@ const columns = [
     key: "operation",
     render: (text, record) => (
       <span>
-        <a onClick={() => viewRecord(record)}>View</a>
-        <Divider type="vertical" />
-        <a onClick={() => editRecord(record)}>Edit</a>
-        <Divider type="vertical" />
-        <a onClick={() => removeRecord(record)}>Remove</a>
-      </span>
+      <Button type="primary" onClick={() => viewRecord(record)}>
+        View
+      </Button>
+      <Divider type="vertical" />
+      <Button type="primary" onClick={() => editRecord(record)}>
+        Edit
+      </Button>
+      <Divider type="vertical" />
+      <Button type="primary" danger onClick={() => removeRecord(record)}>
+        Remove
+      </Button>
+    </span>
     ),
   },
 ];

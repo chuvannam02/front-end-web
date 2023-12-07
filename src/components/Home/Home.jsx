@@ -178,9 +178,18 @@ const Home = () => {
               <Card
                 hoverable
                 style={{ width: 240 }}
-                cover={<img alt="example" src={product.images[0]} />}
+                cover={
+                  <img
+                    alt="Ảnh sản phẩm"
+                    src={
+                      typeof product.images[0] === "object"
+                        ? product.images[0].url
+                        : product.images[0]
+                    }
+                  />
+                }
               >
-                <Meta title={product.name} description={product.description} />
+                <Meta title={product?.name} description={product?.description || "Không có mô tả nào"} />
               </Card>
             </Col>
           ))}

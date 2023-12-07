@@ -1,13 +1,16 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { Redirect } from "react-router-dom";
+import axios from "axios";
+import { createAxios } from "../../createInstance";
 
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../redux/apiRequest";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
 import { UserOutlined, DownOutlined } from "@ant-design/icons";
-import { Dropdown, message, Space, Input, Button } from "antd";
+import { Dropdown, message, Space, Input, Button, Menu, Select } from "antd";
+const { Option } = Select;
 import { AudioOutlined } from "@ant-design/icons";
 
 import { BsCart3 } from "react-icons/bs";
@@ -15,7 +18,7 @@ import { VscAccount } from "react-icons/vsc";
 import { SlLogin } from "react-icons/sl";
 import "./NavBar.scss";
 
-import { persistor } from "../../redux/store/Store";  
+import { persistor } from "../../redux/store/Store";
 const handleButtonClick = (e) => {
   message.info("Click on left button.");
   console.log("click left button", e);
@@ -26,50 +29,14 @@ const handleMenuClick = (e) => {
   console.log("click", e);
 };
 
-const items = [
-  {
-    label: "1st menu item",
-    key: "1",
-    icon: <UserOutlined />,
-  },
-  {
-    label: "2nd menu item",
-    key: "2",
-    icon: <UserOutlined />,
-  },
-  // {
-  //   label: "3rd menu item",
-  //   key: "3",
-  //   icon: <UserOutlined />,
-  //   danger: true,
-  // },
-  // {
-  //   label: "4rd menu item",
-  //   key: "4",
-  //   icon: <UserOutlined />,
-  //   danger: true,
-  //   disabled: true,
-  // },
-];
-
-const menuProps = {
-  items,
-  onClick: handleMenuClick,
-};
-
 // search bar
 const { Search } = Input;
-const suffix = (
-  <AudioOutlined
-    style={{
-      fontSize: 16,
-      color: "#1677ff",
-    }}
-  />
-);
+
 const onSearch = (value, _e, info) => console.log(info?.source, value);
 
 const NavBar = () => {
+  const [categories, setCategories] = useState([]);
+  const dispatch = useDispatch();
   const cart = useSelector((state) => state.carts?.cart);
   const getTotalQuantity = () => {
     let total = 0;
@@ -83,7 +50,6 @@ const NavBar = () => {
     return state.auth.login?.currentUser;
   });
   const history = useHistory();
-  const dispatch = useDispatch();
   // useNavigate được sử dụng ở version 6 của react-router-dom
   // const navigate = useNavigate();
   const id = user?.user._id;
@@ -115,6 +81,33 @@ const NavBar = () => {
 
     return () => window.removeEventListener("scroll", setFixed);
   }, []);
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/api/v1/categories/combobox-without-auth`
+        );
+        setCategories(response.data.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+  const handleChange = (value) => {
+    setSelectedCategory(value);
+  };
+
+  const menu = (
+    <Menu onClick={handleChange}>
+      {categories.map((category) => (
+        <Menu.Item key={category._id} value={category._id}>
+          {category.name}
+        </Menu.Item>
+      ))}
+    </Menu>
+  );
   return (
     <>
       <nav className={fix ? "navbar_fixed" : "navbar-container"}>
@@ -126,11 +119,10 @@ const NavBar = () => {
             height={100}
           ></img>
         </NavLink>
-        <Dropdown menu={menuProps}>
+        <Dropdown overlay={menu}>
           <Button>
             <Space>
-              Danh mục sản phẩm
-              <DownOutlined />
+              Danh mục sản phẩm <DownOutlined />
             </Space>
           </Button>
         </Dropdown>
