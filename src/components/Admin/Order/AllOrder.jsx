@@ -1,84 +1,36 @@
-import Admin from "../Admin";
 import React, { useState, useEffect } from "react";
-import { Table, Badge, Pagination, Divider } from "antd";
+import { Table, Divider } from "antd";
 import { useSelector, useDispatch } from "react-redux";
-import { getAllProducts } from "../../../redux/apiRequest";
+import { getAllOrder } from "../../../redux/apiRequest";
 const columns = [
   // {
   //   title: "ID",
   //   dataIndex: "_id",
   // },
   {
-    title: "STT",
-    dataIndex: "productId",
+    title: "Mã đơn hàng",
+    dataIndex: "orderId",
+    render: (text) => text.toString(),
   },
   {
-    title: "Mã sản phẩm",
-    dataIndex: "code",
+    title: "Mã giỏ hàng",
+    dataIndex: "cartId",
   },
   {
-    title: "Tên sản phẩm",
-    dataIndex: "name",
+    title: "Mã khách hàng",
+    dataIndex: "userId",
   },
   {
-    title: "Nhãn hiệu",
-    dataIndex: "brand",
+    title: "Trạng thái vận chuyển",
+    dataIndex: "delivery_status",
+    render: (text) => {
+        // Hiển thị trạng thái tùy thuộc vào giá trị
+        return text === "Pending" ? "Chờ xác nhận" : text;
+      },
   },
   {
-    title: "Mô tả",
-    dataIndex: "description",
-  },
-  {
-    title: "Ngày ra mắt",
-    dataIndex: "releaseDate",
-    render: (date) => {
-      let d = new Date(date);
-      return d.toLocaleDateString("vi-VN", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hour12: false,
-      });
-    },
-  },
-  {
-    title: "Giá",
-    dataIndex: "price",
-  },
-  {
-    title: "Ngày tạo",
-    dataIndex: "createdAt",
-    render: (date) => {
-      let d = new Date(date);
-      return d.toLocaleDateString("vi-VN", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hour12: false,
-      });
-    },
-  },
-  {
-    title: "Ngày cập nhật",
-    dataIndex: "updatedAt",
-    render: (date) => {
-      let d = new Date(date);
-      return d.toLocaleDateString("vi-VN", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hour12: false,
-      });
-    },
+    title: "Tổng số tiền",
+    dataIndex: "total",
   },
   {
     title: "Action",
@@ -94,7 +46,7 @@ const columns = [
     ),
   },
 ];
-const Products = () => {
+const AllOrder = () => {
   const viewRecord = (record) => {
     console.log("View Record", record);
     // Implement your view logic here
@@ -154,9 +106,9 @@ const Products = () => {
   let user = useSelector((state) => state.auth.login?.currentUser);
   const [pageSize, setPageSize] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
-  let products = useSelector((state) => state.products.products?.allProducts);
+  let orders = useSelector((state) => state.orders.orders?.allOrders);
   const dispatch = useDispatch();
-  let { data, totalPage } = products || {};
+  let { data, totalPage } = orders || {};
 
   const handlePaginationChange = async (pageNumber, pageSize) => {
     setCurrentPage(pageNumber);
@@ -166,7 +118,7 @@ const Products = () => {
   };
   useEffect(() => {
     dispatch(
-      getAllProducts({
+      getAllOrder({
         userObject: user,
         page: currentPage,
         limit: pageSize,
@@ -174,9 +126,9 @@ const Products = () => {
     );
   }, [currentPage, pageSize, dispatch, user]);
   let memoizedData = React.useMemo(() => {
-    return data?.map((product, index) => ({
-      ...product,
-      key: product.productId,
+    return data?.map((order, index) => ({
+      ...order,
+      key: order._id,
     }));
   }, [data]);
   return (
@@ -189,10 +141,10 @@ const Products = () => {
           // Pagination configuration
           pageSizeOptions: ["5", "10", "15", "20"],
           pageSize: pageSize,
-          total: products.totalItems, // Total number of data items
+        //   total: orders.totalItems, // Total number of data items
           showSizeChanger: true, // Show options to change the number of items per page
           showQuickJumper: true, // Show a quick jump input
-          showTotal: (total) => `Tổng số ${total} sản phẩm`, // Display total items text
+          showTotal: (total) => `Total ${total} items`, // Display total items text
           onChange: (currentPage, pageSize) =>
             handlePaginationChange(currentPage, pageSize), // Handle page change
           current: currentPage,
@@ -202,4 +154,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default AllOrder;

@@ -1,9 +1,10 @@
 import "./total.scss";
 import { useSelector } from "react-redux";
 import React from "react";
-import { Button } from "antd";
+import { Button, Spin } from "antd";
 import { NavLink } from "react-router-dom";
-import PayButton from "../PayButton";
+import { Suspense } from "react";
+const PayButton = React.lazy(() => import("../PayButton"));
 function Total() {
   const cart = useSelector((state) => state.carts?.cart);
   let isLogin = useSelector((state) => state.auth?.login.isLogin);
@@ -43,7 +44,11 @@ function Total() {
           {/* <Button type="primary" size="large">
             Thanh toán
           </Button> */}
-          <PayButton cartItems={cart}/>
+          <Suspense
+            fallback={<Spin spinning={true} className="fullscreen-spin" />}
+          >
+            <PayButton cartItems={cart} />
+          </Suspense>
         </>
       ) : (
         <>

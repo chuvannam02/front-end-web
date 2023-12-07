@@ -1,4 +1,3 @@
-import ComboboxCategories from "../ComboboxCategoires/ComboboxCategories";
 import React, { useState, useEffect } from "react";
 import {
   Upload,
@@ -10,12 +9,17 @@ import {
   InputNumber,
   Row,
   Col,
+  Spin,
+  notification
 } from "antd";
 import { UploadOutlined, PlusOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { createAxios } from "../../../createInstance";
-// const { Option } = Select;
-// const { RangePicker } = DatePicker;
+import { Suspense } from "react";
+const ComboBoxCategories = React.lazy(() =>
+  import("../ComboboxCategoires/ComboboxCategories")
+);
+import "./CreateNewProduct.scss";
 const { TextArea } = Input;
 const layout = {
   labelCol: {
@@ -25,7 +29,6 @@ const layout = {
     span: 20,
   },
 };
-const MemoizedComboboxCategories = React.memo(ComboboxCategories);
 const CreateNewProduct = () => {
   const dispatch = useDispatch();
   let user = useSelector((state) => state.auth.login?.currentUser);
@@ -91,10 +94,23 @@ const CreateNewProduct = () => {
     try {
       const response = await axiosJWT.post(url, formData, config);
       console.log(response.data);
+      if (response) {
+        form.resetFields();
+        setFileList([]);
+        setSelectedCategory("");
+        notification.success({
+          message: "Thành công",
+          description: `Tạo mới sản phẩm ${newProduct.name ?? ""} thành công`,
+        });
+      }
       return response.data;
     } catch (error) {
       console.error("Error creating product:", error);
-      throw error;
+      notification.error({
+        message: "Có lỗi xảy ra",
+        description:
+          `Có lỗi xảy ra khi cố gắng tạo mới sản phẩm ${newProduct.name ?? ""}!`,
+      });
     }
   };
   const isFormValid = async () => {
@@ -150,10 +166,14 @@ const CreateNewProduct = () => {
                 },
               ]}
             >
-              <MemoizedComboboxCategories
-                selectedCategory={selectedCategory}
-                setSelectedCategory={setSelectedCategory}
-              />
+              <Suspense
+                fallback={<Spin spinning={true} className="fullscreen-spin" />}
+              >
+                <ComboBoxCategories
+                  selectedCategory={selectedCategory}
+                  setSelectedCategory={setSelectedCategory}
+                />
+              </Suspense>
             </Form.Item>
             <Form.Item label="Ngày ra mắt" name="releaseDate">
               <DatePicker size="large" placeholder="Lựa chọn ngày" />

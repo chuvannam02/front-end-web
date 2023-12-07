@@ -153,8 +153,8 @@ export const deleteUser = createAsyncThunk(
   async ({ user, id }, { rejectWithValue }) => {
     try {
       // Create Axios instance with the access token
-      console.log("user: " + user?.user);
-      console.log("id: " + id);
+      // console.log("user: " + user?.user);
+      // console.log("id: " + id);
       const axiosJWT = createAxios(user);
       await axiosJWT.delete(`http://localhost:3000/api/v1/user/delete/${id}`, {
         headers: {
@@ -243,8 +243,8 @@ export const searchUser = createAsyncThunk(
 export const logoutUser = createAsyncThunk(
   "auth/logoutUser",
   async (userObject, { rejectWithValue }) => {
-    console.log("Dispatching logoutUser thunk");
-    console.log("user:", userObject);
+    // console.log("Dispatching logoutUser thunk");
+    // console.log("user:", userObject);
     try {
       // Create Axios instance with the access token
       const axiosJWT = createAxios(userObject);
@@ -258,7 +258,7 @@ export const logoutUser = createAsyncThunk(
           withCredentials: true,
         }
       );
-      console.log("LogoutUser thunk succeeded");
+      // console.log("LogoutUser thunk succeeded");
     } catch (error) {
       console.error(error.message);
       return rejectWithValue("FAILED", error);
@@ -300,9 +300,9 @@ export const resetPassword = async (password, dispatch, history, token) => {
 export const createAnUser = createAsyncThunk(
   "user/create",
   async ({ newUser, user }, { rejectWithValue }) => {
-    console.log("Dispatching createAnUser thunk");
-    console.log("newUser is: ", newUser);
-    console.log("new is: ", user);
+    // console.log("Dispatching createAnUser thunk");
+    // console.log("newUser is: ", newUser);
+    // console.log("new is: ", user);
     try {
       // Create Axios instance with the access token
       const axiosJWT = createAxios(user);
@@ -317,7 +317,7 @@ export const createAnUser = createAsyncThunk(
         }
       );
       return true;
-      console.log("Create new user thunk successfully");
+      // console.log("Create new user thunk successfully");
     } catch (error) {
       console.error(error.message);
       return rejectWithValue("FAILED", error);
@@ -417,6 +417,74 @@ export const getAllCategories = createAsyncThunk(
       );
       // Nếu chưa tải, gọi API và lưu dữ liệu vào state
       // return { ...response.data, page };
+      return response;
+    } catch (error) {
+      return rejectWithValue("FAILED", error.message);
+    }
+  }
+);
+
+export const removeACategory = createAsyncThunk(
+  "categories/removeACategory",
+  async ({ userObject, id }, { rejectWithValue }) => {
+    try {
+      console.log("userObject: ", userObject);
+      console.log("id: ", id);
+      const axiosJWT = createAxios(userObject);
+      const response = await axiosJWT.delete(
+        `http://localhost:3000/api/v1/categories/delete/${id}`,
+        {
+          headers: {
+            token: userObject?.accessToken,
+          },
+          withCredentials: true,
+        }
+      );
+      return response;
+    } catch (error) {
+      return rejectWithValue("FAILED", error.message);
+    }
+  }
+);
+
+export const updateACategory = createAsyncThunk(
+  "categories/updateACategory",
+  async ({ userObject, id, newInforOfCategory }, { rejectWithValue }) => {
+    try {
+      console.log("userObject: ", userObject);
+      console.log("id: ", id);
+      const axiosJWT = createAxios(userObject);
+      const response = await axiosJWT.put(
+        `http://localhost:3000/api/v1/categories/update/${id}`,
+        newInforOfCategory,
+        {
+          headers: {
+            token: userObject?.accessToken,
+          },
+          withCredentials: true,
+        }
+      );
+      return response;
+    } catch (error) {
+      return rejectWithValue("FAILED", error.message);
+    }
+  }
+);
+export const getAllOrder = createAsyncThunk(
+  "orders/getAllOrders",
+  async ({ userObject, page, limit }, { rejectWithValue }) => {
+    try {
+      const axiosJWT = createAxios(userObject);
+      const response = await axiosJWT.get(
+        `http://localhost:3000/api/v1/orders/all?page=${page}&limit=${limit}`,
+        {
+          headers: {
+            token: userObject?.accessToken,
+          },
+          withCredentials: true,
+        }
+      );
+      // console.log(response);
       return response;
     } catch (error) {
       return rejectWithValue("FAILED", error.message);

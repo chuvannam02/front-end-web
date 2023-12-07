@@ -1,5 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createACategory, getAllCategories } from "../apiRequest";
+import {
+  createACategory,
+  getAllCategories,
+  removeACategory,
+  updateACategory,
+} from "../apiRequest";
 const categorySlice = createSlice({
   name: "categories",
   initialState: {
@@ -17,7 +22,15 @@ const categorySlice = createSlice({
       error: false,
     },
   },
-  reducers: {},
+  reducers: {
+    resetNewCategory: (state) => {
+      state.newCategory = {
+        category: null,
+        isFetching: false,
+        error: false,
+      };
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(createACategory.pending, (state) => {
@@ -47,9 +60,31 @@ const categorySlice = createSlice({
       })
       .addCase(getAllCategories.rejected, (state) => {
         state.categories.error = true;
+      })
+      .addCase(removeACategory.pending, (state) => {
+        state.categories.isFetching = true;
+        state.categories.error = null;
+      })
+      .addCase(removeACategory.fulfilled, (state) => {
+        state.categories.isFetching = false;
+        state.categories.error = null;
+      })
+      .addCase(removeACategory.rejected, (state) => {
+        state.categories.error = true;
+      })
+      .addCase(updateACategory.pending, (state) => {
+        state.categories.isFetching = true;
+        state.categories.error = null;
+      })
+      .addCase(updateACategory.fulfilled, (state) => {
+        state.categories.isFetching = false;
+        state.categories.error = null;
+      })
+      .addCase(updateACategory.rejected, (state) => {
+        state.categories.error = true;
       });
   },
 });
 export const {} = categorySlice.actions;
-
+export const { resetNewCategory } = categorySlice.actions;
 export default categorySlice.reducer;

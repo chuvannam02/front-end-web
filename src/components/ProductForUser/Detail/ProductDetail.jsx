@@ -112,8 +112,8 @@ const ProductDetailed = () => {
                   <Image
                     src={img}
                     alt="Ảnh hiện tại"
-                    height={350}
-                    width={350}
+                    height={300}
+                    width={300}
                   />
                   {/* <div className="current_img"> */}
                   {/* <Image

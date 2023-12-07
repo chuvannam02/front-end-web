@@ -8,7 +8,7 @@ const ComboboxCategories = ({ selectedCategory, setSelectedCategory }) => {
   const [categories, setCategories] = useState([]);
   let user = useSelector((state) => state.auth.login?.currentUser);
   const dispatch = useDispatch();
-  console.log(categories);
+  // console.log(categories);
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -47,4 +47,4 @@ const ComboboxCategories = ({ selectedCategory, setSelectedCategory }) => {
   );
 };
 
-export default ComboboxCategories;
+export default React.memo(ComboboxCategories);

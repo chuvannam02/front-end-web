@@ -16,16 +16,17 @@ import "./Admin.scss";
 import { NavLink, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "./../../redux/apiRequest";
-import Products from "./Products/Products";
-import Users from "./User/Users";
 import { Switch, Route } from "react-router-dom";
 import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
+import { persistor } from "../../redux/store/Store";
+import Products from "./Products/Products";
+import Users from "./User/Users";
 import AddNewUser from "./User/AddNewUser";
 import CreateNewCategory from "./Categories/CreateNewCategory";
 import AllCategories from "./Categories/AllCategories";
-import { persistor } from "../../redux/store/Store";
 import Dashboard from "./Dashboard/Dashboard";
 import CreateNewProduct from "./Products/CreateNewProduct";
+import AllOrder from "./Order/AllOrder";
 const { Header, Content, Footer, Sider } = Layout;
 function getItem(label, key, icon, children) {
   return {
@@ -37,25 +38,23 @@ function getItem(label, key, icon, children) {
 }
 const items = [
   getItem("Dashboard", "1", <PieChartOutlined />),
-  getItem("Option 2", "2", <DesktopOutlined />),
-  getItem("Customers", "sub1", <UserOutlined />, [
-    getItem("All Users", "3"),
-    getItem("Create New User", "4"),
+  // getItem("Option 2", "2", <DesktopOutlined />),
+  getItem("Khách hàng", "sub1", <UserOutlined />, [
+    getItem("Tất cả người dùng", "3"),
+    getItem("Tạo mới tài khoản", "4"),
   ]),
-  getItem("Products", "sub2", <PiShoppingBagOpen />, [
-    getItem("Product List", "5"),
-    getItem("Create New Product", "6"),
+  getItem("Sản phẩm", "sub2", <PiShoppingBagOpen />, [
+    getItem("Danh sách", "5"),
+    getItem("Tạo mới sản phẩm", "6"),
   ]),
-  getItem("Categories", "sub3", <BiCategoryAlt />, [
-    getItem("Category List", "7"),
-    getItem("Create New Category", "8"),
+  getItem("Danh mục", "sub3", <BiCategoryAlt />, [
+    getItem("Danh sách", "7"),
+    getItem("Tạo mới danh mục", "8"),
   ]),
-  getItem("Orders", "sub4", <RiShoppingBagLine />, [
-    getItem("Order List", "9"),
-    getItem("Order Details", "10"),
+  getItem("Đơn hàng", "sub4", <RiShoppingBagLine />, [
+    getItem("Danh sách đơn hàng", "9"),
+    // getItem("Order Details", "10"),
   ]),
-  getItem("Check Out", "11", <FiShoppingCart />),
-  getItem("Setting", "12", <FiSettings />),
 ];
 const Admin = () => {
   let user = useSelector((state) => state.auth.login?.currentUser);
@@ -190,6 +189,11 @@ const Admin = () => {
             {selectedMenuItem === "6" && (
               <>
                 <CreateNewProduct />
+              </>
+            )}
+             {selectedMenuItem === "9" && (
+              <>
+                <AllOrder />
               </>
             )}
             {selectedMenuItem === "5" && (

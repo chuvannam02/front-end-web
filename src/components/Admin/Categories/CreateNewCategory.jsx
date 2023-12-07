@@ -1,38 +1,14 @@
-import React, { useState } from "react";
-import {
-  Button,
-  //   Cascader,
-  //   Checkbox,
-  DatePicker,
-  Form,
-  Input,
-  //   InputNumber,
-  Radio,
-  //   Select,
-  //   Slider,
-  //   Switch,
-  //   TreeSelect,
-  //   Upload,
-  Space,
-} from "antd";
+import React, { useState, useEffect } from "react";
+import { Button, Form, Input, Radio, Space, notification } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { createACategory } from "../../../redux/apiRequest";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import { resetNewCategory } from "../../../redux/reducer/categorySlice";
 const CreateNewCategory = () => {
-  const notify1 = () => {
-    toast.success(`Tạo mới danh mục ${values.name ?? ""} thành công`, {
-      position: toast.POSITION.TOP_RIGHT,
-    });
-  };
-  const notify2 = () => {
-    toast.warn("Có lỗi xảy ra khi cố gắng tạo mới tài danh mục phân loại!", {
-      position: toast.POSITION.TOP_RIGHT,
-    });
-  };
-  const user = useSelector((state) => state.auth.login?.currentUser);
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.login?.currentUser);
+  const newCategoryState = useSelector((state) => state.categories.newCategory);
   const [form] = Form.useForm();
   const [values, setValues] = useState({
     status: "active",
@@ -46,11 +22,22 @@ const CreateNewCategory = () => {
       const res = await dispatch(
         createACategory({ userObject: user, newCategory: values })
       );
-      notify1();
-      form.resetFields(); // Reset the form fields after submission
+      if (res) {
+        notification.success({
+          message: "Thành công",
+          description: `Tạo mới danh mục ${values.name ?? ""} thành công`,
+        });
+
+        form.resetFields(); // Reset the form fields after submission
+        dispatch(resetNewCategory);
+      }
     } catch (error) {
       console.error(error);
-      notify2();
+      notification.error({
+        message: "Có lỗi xảy ra",
+        description:
+          "Có lỗi xảy ra khi cố gắng tạo mới tài danh mục phân loại!",
+      });
     }
   };
 
@@ -61,6 +48,11 @@ const CreateNewCategory = () => {
       name: "",
     });
   };
+  useEffect(() => {
+    if (newCategoryState.error) {
+    } else if (newCategoryState.category) {
+    }
+  }, [newCategoryState]);
   return (
     <>
       <div

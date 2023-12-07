@@ -7,7 +7,7 @@ import { Breadcrumb, Empty, Button } from "antd";
 import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
 function Cart() {
   const cart = useSelector((state) => state.carts?.cart);
-  console.log(cart);
+  // console.log(cart);
   return (
     <>
       <br />

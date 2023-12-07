@@ -4,6 +4,7 @@ import userSlice from "../reducer/userSlice";
 import cartSlice from "../reducer/cartSlice";
 import productSlice from "../reducer/productSlice";
 import { productService } from "../../components/ProductForUser/ProductForUser";
+import orderSlice from "../reducer/orderSlice";
 import {
   persistStore,
   persistReducer,
@@ -27,7 +28,8 @@ const rootReducer = combineReducers({
   users: userSlice,
   carts: cartSlice,
   products:productSlice,
-  categories:categorySlice
+  categories:categorySlice,
+  orders:orderSlice
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

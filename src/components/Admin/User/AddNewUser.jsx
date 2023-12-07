@@ -1,17 +1,13 @@
 import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { ErrorMessage } from "@hookform/error-message";
-import { FaEyeSlash } from "react-icons/fa";
-import { FaEye } from "react-icons/fa";
+import { Form, Input, Button, notification} from "antd";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { createAnUser } from "../../../redux/apiRequest";
-import { createAxios } from "../../../createInstance";
-import { toast, ToastContainer } from 'react-toastify';
-import "react-toastify/dist/ReactToastify.css";
+import { EyeInvisibleOutlined,EyeTwoTone } from '@ant-design/icons';
 import "./AddNewUser.scss";
 const AddNewUser = () => {
+  const [form] = Form.useForm();
   //   const [isShowDetail, setIsShowDetail] = useState(false);
   //   const handleHideShow = (status) => {
   //     setIsShowDetail(status);
@@ -31,45 +27,148 @@ const AddNewUser = () => {
   //   let token = user?.accessToken;
   // let token1 = localStorage.getItem("token");
   const mess = useSelector((state) => state.users?.mess);
-  const {
-    register,
-    formState: { errors },
-    handleSubmit,
-    getValues,
-    watch,
-  } = useForm();
-  const onSubmit = async (data) => {
+  // const {
+  //   register,
+  //   formState: { errors },
+  //   handleSubmit,
+  //   getValues,
+  //   watch,
+  // } = useForm();
+  const onFinish = async (values) => {
     const newUser = {
-      name: data.name,
-      email: data.email,
-      password: data.password,
-      phonenumber: data.phonenumber,
-      address: data.address,
+      name: values.name,
+      email: values.email,
+      password: values.password,
+      phonenumber: values.phonenumber,
+      address: values.address,
     };
-    if (newUser) {
+
+    try {
       const res = await dispatch(createAnUser({ newUser, user }));
       if (res) {
-        notify();
-      } else {
-        notify1()
+        notification.success({
+          message: "Thành công",
+          description: `Tạo mới thông tin  người dùng ${values.name ?? ""} thành công`,
+        });
+        form.resetFields();
       }
+    } catch (error) {
+      console.error("Error creating user:", error);
+      notification.error({
+        message: "Thất bại",
+        description: `Tạo mới thông tin  người dùng ${values.name ?? ""} thất bại`,
+      });
     }
   };
-  // react toastify
-  const notify = () => {
-    toast.success("Tạo mới thông tin người dùng thành công !", {
-      position: toast.POSITION.TOP_RIGHT
-    })
-  };
-  const notify1 = () => {
-    toast.warn("Tạo mới thông tin người dùng thất bại!", {
-      position: toast.POSITION.TOP_RIGHT
-    })
-  };
+  // const onSubmit = async (data) => {
+  //   const newUser = {
+  //     name: data.name,
+  //     email: data.email,
+  //     password: data.password,
+  //     phonenumber: data.phonenumber,
+  //     address: data.address,
+  //   };
+  //   if (newUser) {
+  //     const res = await dispatch(createAnUser({ newUser, user }));
+  //   }
+  // };
   return (
     <>
+    <h3>Tạo mới tài khoản người dùng</h3>
       <div className="body">
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <Form
+          form={form}
+          onFinish={onFinish}
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 14 }}
+        >
+          <Form.Item
+            label="Tên"
+            name="name"
+            rules={[{ required: true, message: "Vui lòng nhập tên của bạn!" }]}
+          >
+            <Input placeholder="Nhập tên của bạn" />
+          </Form.Item>
+
+          <Form.Item
+            label="Email"
+            name="email"
+            rules={[
+              { required: true, message: "Vui lòng nhập email của bạn!" },
+              {
+                type: "email",
+                message: "Vui lòng nhập đúng định dạng email!",
+              },
+            ]}
+          >
+            <Input placeholder="Nhập email của bạn" />
+          </Form.Item>
+
+          <Form.Item
+            label="Mật khẩu"
+            name="password"
+            rules={[
+              { required: true, message: "Vui lòng nhập mật khẩu của bạn!" },
+              { min: 6, message: "Mật khẩu phải có ít nhất 6 ký tự!" },
+            ]}
+          >
+            <Input.Password
+              placeholder="Nhập mật khẩu của bạn"
+              iconRender={(visible) =>
+                visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
+              }
+            />
+          </Form.Item>
+
+          <Form.Item
+            label="Xác nhận mật khẩu"
+            name="password_repeat"
+            rules={[
+              { required: true, message: "Vui lòng xác nhận mật khẩu!" },
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (!value || getFieldValue("password") === value) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(
+                    new Error("Mật khẩu không trùng khớp!")
+                  );
+                },
+              }),
+            ]}
+          >
+            <Input.Password
+              placeholder="Vui lòng xác nhận mật khẩu"
+              iconRender={(visible) =>
+                visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
+              }
+            />
+          </Form.Item>
+
+          <Form.Item
+            label="Số điện thoại liên lạc"
+            name="phonenumber"
+            rules={[
+              {
+                pattern: /^[1-9]{1}[0-9]*$/,
+                message: "Số điện thoại không đúng định dạng!",
+              },
+            ]}
+          >
+            <Input type="number" placeholder="Nhập số điện thoại của bạn" />
+          </Form.Item>
+
+          <Form.Item label="Địa chỉ" name="address">
+            <Input placeholder="Nhập địa chỉ nhận hàng" />
+          </Form.Item>
+
+          <Form.Item wrapperCol={{ offset: 6, span: 14 }}>
+            <Button type="primary" htmlType="submit">
+              Xác nhận thêm người dùng mới
+            </Button>
+          </Form.Item>
+        </Form>
+        {/* <form onSubmit={handleSubmit(onSubmit)}>
           <fieldset>
             <legend>Thêm người dùng mới</legend>
             <div className="input_user">
@@ -183,8 +282,6 @@ const AddNewUser = () => {
                     Phần xác nhận mật khẩu không được để trống!
                   </p>
                 )}
-                {/* errors will return when field validation fails  */}
-                {/* here we watch the both password and confirm password filed and if both not match, trigger the validation */}
                 {watch("password") !== watch("password_repeat")
                   ? getValues("password_repeat") && (
                     <p style={{ color: "red" }} role="alert">
@@ -233,7 +330,7 @@ const AddNewUser = () => {
               <button>Xác nhận thêm người dùng mới</button>
             </div>
           </fieldset>
-        </form>
+                </form>*/}
       </div>
 
       {/* {isShowDetail === true && (

@@ -1,4 +1,5 @@
 import axios from "axios";
+import React from "react";
 import { useSelector } from "react-redux";
 const PayButton = ({ cartItems }) => {
   const user = useSelector((state) => {
@@ -23,4 +24,4 @@ const PayButton = ({ cartItems }) => {
     </button>
   );
 };
-export default PayButton;
+export default React.memo(PayButton);
