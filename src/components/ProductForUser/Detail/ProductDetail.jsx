@@ -4,10 +4,8 @@ import { useParams } from "react-router-dom";
 import { GetAProduct } from "../../../redux/apiRequest";
 import "./ProductDetail.scss";
 import { addToCart } from "../../../redux/reducer/cartSlice";
-import Lightbox from "react-image-lightbox";
 import { FiShoppingCart } from "react-icons/fi";
 import { useHistory } from "react-router-dom";
-import "react-image-lightbox/style.css"; // This only needs to be imported once in your app
 import { Image } from "antd";
 import { Breadcrumb } from "antd";
 import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
