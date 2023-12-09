@@ -45,7 +45,7 @@ export const loginUser = createAsyncThunk(
   "auth/loginUser",
   async (user, { rejectWithValue }) => {
     try {
-      const response = await axios.post("http://localhost:3000/login", user, {
+      const response = await axios.post("https://mern-stack-backend-kw0h.onrender.com/login", user, {
         withCredentials: true,
       });
       const data = response.data;
@@ -64,7 +64,7 @@ export const loginUser = createAsyncThunk(
 export const registerUser = async (user, dispatch, history) => {
   dispatch(registerStart());
   try {
-    const res = await axios.post("http://localhost:3000/register", user);
+    const res = await axios.post("https://mern-stack-backend-kw0h.onrender.com/register", user);
     dispatch(registerSuccess(res.data));
     history.push("/login");
   } catch (error) {
@@ -78,7 +78,7 @@ export const getAllUsers = createAsyncThunk(
   async (user) => {
     try {
       const axiosJWT = createAxios(user); // Create Axios instance with the access token
-      const res = await axiosJWT.get("http://localhost:3000/api/v1/user/all", {
+      const res = await axiosJWT.get("https://mern-stack-backend-kw0h.onrender.com/api/v1/user/all", {
         headers: {
           token: user.accessToken,
         },
@@ -131,7 +131,7 @@ export const updateUser = createAsyncThunk(
       // Create Axios instance with the access token
       const axiosJWT = createAxios(user);
       const res = await axiosJWT.patch(
-        `http://localhost:3000/api/v1/user/update/${id}`,
+        `https://mern-stack-backend-kw0h.onrender.com/api/v1/user/update/${id}`,
         updatedFields,
         {
           headers: {
@@ -156,7 +156,7 @@ export const deleteUser = createAsyncThunk(
       // console.log("user: " + user?.user);
       // console.log("id: " + id);
       const axiosJWT = createAxios(user);
-      await axiosJWT.delete(`http://localhost:3000/api/v1/user/delete/${id}`, {
+      await axiosJWT.delete(`https://mern-stack-backend-kw0h.onrender.com/api/v1/user/delete/${id}`, {
         headers: {
           token: user.accessToken,
           "Content-type": "application/json",
@@ -181,7 +181,7 @@ export const searchUser = createAsyncThunk(
       // Create Axios instance with the access token
       const axiosJWT = createAxios(userObject);
       const res = await axiosJWT.get(
-        `http://localhost:3000/api/v1/user/search?name=${searchString}`,
+        `https://mern-stack-backend-kw0h.onrender.com/api/v1/user/search?name=${searchString}`,
         {
           headers: {
             token: userObject.accessToken,
@@ -249,7 +249,7 @@ export const logoutUser = createAsyncThunk(
       // Create Axios instance with the access token
       const axiosJWT = createAxios(userObject);
       const response = await axiosJWT.post(
-        "http://localhost:3000/logout",
+        "https://mern-stack-backend-kw0h.onrender.com/logout",
         { id: userObject.user._id },
         {
           headers: {
@@ -282,7 +282,7 @@ export const resetPassword = async (password, dispatch, history, token) => {
   dispatch(resetStart());
   try {
     const res = await axios.patch(
-      `http://localhost:3000/reset-password/${token.token}`,
+      `https://mern-stack-backend-kw0h.onrender.com/reset-password/${token.token}`,
       password,
       {
         headers: {
@@ -307,7 +307,7 @@ export const createAnUser = createAsyncThunk(
       // Create Axios instance with the access token
       const axiosJWT = createAxios(user);
       const response = await axiosJWT.post(
-        "http://localhost:3000/api/v1/user",
+        "https://mern-stack-backend-kw0h.onrender.com/api/v1/user",
         newUser,
         {
           headers: {
@@ -338,7 +338,7 @@ export const getAllProducts = createAsyncThunk(
     try {
       const axiosJWT = createAxios(userObject);
       const response = await axiosJWT.get(
-        `http://localhost:3000/api/v1/product/all?page=${page}&limit=${limit}`,
+        `https://mern-stack-backend-kw0h.onrender.com/api/v1/product/all?page=${page}&limit=${limit}`,
         {
           headers: {
             token: userObject?.accessToken,
@@ -359,7 +359,7 @@ export const GetAProduct = createAsyncThunk(
   async ({ id }, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        "http://localhost:3000/api/v1/product/find/" + id
+        "https://mern-stack-backend-kw0h.onrender.com/api/v1/product/find/" + id
       );
       return response;
     } catch (error) {
@@ -378,7 +378,7 @@ export const createACategory = createAsyncThunk(
     try {
       const axiosJWT = createAxios(userObject);
       const response = await axiosJWT.post(
-        "http://localhost:3000/api/v1/categories/create",
+        "https://mern-stack-backend-kw0h.onrender.com/api/v1/categories/create",
         newCategory,
         {
           headers: {
@@ -407,7 +407,7 @@ export const getAllCategories = createAsyncThunk(
     try {
       const axiosJWT = createAxios(userObject);
       const response = await axiosJWT.get(
-        `http://localhost:3000/api/v1/categories?page=${page}&limit=${limit}`,
+        `https://mern-stack-backend-kw0h.onrender.com/api/v1/categories?page=${page}&limit=${limit}`,
         {
           headers: {
             token: userObject?.accessToken,
@@ -432,7 +432,7 @@ export const removeACategory = createAsyncThunk(
       console.log("id: ", id);
       const axiosJWT = createAxios(userObject);
       const response = await axiosJWT.delete(
-        `http://localhost:3000/api/v1/categories/delete/${id}`,
+        `https://mern-stack-backend-kw0h.onrender.com/api/v1/categories/delete/${id}`,
         {
           headers: {
             token: userObject?.accessToken,
@@ -455,7 +455,7 @@ export const updateACategory = createAsyncThunk(
       console.log("id: ", id);
       const axiosJWT = createAxios(userObject);
       const response = await axiosJWT.put(
-        `http://localhost:3000/api/v1/categories/update/${id}`,
+        `https://mern-stack-backend-kw0h.onrender.com/api/v1/categories/update/${id}`,
         newInforOfCategory,
         {
           headers: {
@@ -476,7 +476,7 @@ export const getAllOrder = createAsyncThunk(
     try {
       const axiosJWT = createAxios(userObject);
       const response = await axiosJWT.get(
-        `http://localhost:3000/api/v1/orders/all?page=${page}&limit=${limit}`,
+        `https://mern-stack-backend-kw0h.onrender.com/api/v1/orders/all?page=${page}&limit=${limit}`,
         {
           headers: {
             token: userObject?.accessToken,
