@@ -270,7 +270,7 @@ export const forgetPassword = async (email, dispatch) => {
   dispatch(forgetStart());
   try {
     const res = await axios.post(
-      "http://localhost:3000/forget-password",
+      "https://mern-stack-backend-kw0h.onrender.com/forget-password",
       email
     );
     dispatch(forgetSuccess(res.data));
