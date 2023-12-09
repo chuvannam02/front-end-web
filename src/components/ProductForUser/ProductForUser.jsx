@@ -12,7 +12,7 @@ const { Option } = Select;
 // Define a service using a base URL and expected endpoints
 export const productService = createApi({
   reducerPath: "productService",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3000/api/v1" }),
+  baseQuery: fetchBaseQuery({ baseUrl: "https://mern-stack-backend-kw0h.onrender.com/api/v1" }),
   endpoints: (builder) => ({
     getAllProducts: builder.query({
       query: (page = 1, limit = 5, searchTerm = "") => ({
