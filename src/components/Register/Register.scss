@@ -1,0 +1,39 @@
+.register-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin:50px 0;
+  }
+  
+  .register-form {
+    max-width: 700px; /* Set the maximum width of the form */
+    width: 100%;
+    padding: 30px;
+    border: 1px solid #e8e8e8;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .register-title {
+    font-size: 26px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .register_account {
+    margin-top: 30px;
+    text-align: center;
+  }
+  
+  .register_account span {
+    cursor: pointer;
+    color: #1890ff;
+  }
+  
+  /* Additional styles for responsiveness */
+  @media (max-width: 768px) {
+    .register-form {
+      max-width: 100%;
+    }
+  }

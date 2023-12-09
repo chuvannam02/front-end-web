@@ -1,30 +1,27 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState } from "react";
+import { Form, Input, Button, notification } from "antd";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { registerUser } from "../../redux/apiRequest";
-import { useForm } from "react-hook-form";
-import { ErrorMessage } from "@hookform/error-message";
-import { FaEyeSlash } from "react-icons/fa";
-import { FaEye } from "react-icons/fa";
+import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
+import "./Register.scss";
 const Register = () => {
-  // handle hide show password
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const handlePassword = () => {
     setShowPassword(!showPassword);
   };
+
   const handleConfirmPassword = () => {
     setShowConfirmPassword(!showConfirmPassword);
   };
-  // For validate form register
-  const {
-    register,
-    handleSubmit,
-    getValues,
-    watch,
-    formState: { errors },
-  } = useForm();
-  const onSubmit = (data) => {
+
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const user = useSelector((state) => state.auth.login?.currentUser);
+
+  const onFinish = (data) => {
     const newUser = {
       name: data.name,
       email: data.email,
@@ -33,149 +30,83 @@ const Register = () => {
     registerUser(newUser, dispatch, history);
   };
 
-  const dispatch = useDispatch();
-  const history = useHistory();
-  const handleLogin = (e) => {
-    e.preventDefault();
-    history.push("/login");
+  const notify = (type, message, description) => {
+    notification[type]({
+      message: message,
+      description: description,
+      placement: "topRight",
+    });
   };
+
   return (
-    <>
-      <section className="register-container">
+    <div className="register-container">
+      <section className="register-form">
         <div className="register-title"> ĐĂNG KÝ TÀI KHOẢN MỚI </div>
         <hr />
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="form-control username">
-            <label>Tên người dùng</label>
-            <input
-              {...register("name", { required: true })}
-              id="name"
-              name="name"
-              type="text"
-              autoComplete="on"
-              placeholder="Enter your username"
-            />
-            {errors.name?.type === "required" && (
-              <p style={{ color: "red" }} role="alert">
-                Vui lòng điền vào phần Tên người dùng
-              </p>
-            )}
-          </div>
-          <div className="form-control email">
-            <label>Email</label>
-            <input
-              id="email"
-              name="email"
-              type="text"
-              autoComplete="on"
-              placeholder="Enter your email"
-              {...register("email", {
-                required: true,
-                pattern: {
-                  value: /^[a-zA-z0-9._%+-]+@gmail.com$/i,
-                  message:
-                    "Vui lòng nhập đúng định dạng email như sau: abc@gmail.com !",
-                },
-              })}
-            />
-            <ErrorMessage
-              errors={errors}
-              name="email"
-              render={({ message }) => (
-                <p style={{ color: "red" }}>{message}</p>
-              )}
-            />
-            {errors.email?.type === "required" && (
-              <p style={{ color: "red" }} role="alert">
-                Vui lòng điền vào phần email
-              </p>
-            )}
-          </div>
-
-          <div className="form-control password">
-            <label>Mật khẩu</label>
-            <input
-              name="password"
-              id="password"
-              autoComplete="on"
-              type={showPassword ? "text" : "password"}
+        <Form onFinish={onFinish}>
+          <Form.Item
+            label="Tên người dùng"
+            name="name"
+            rules={[{ required: true, message: "Vui lòng điền vào phần Tên người dùng" }]}
+          >
+            <Input placeholder="Enter your username" />
+          </Form.Item>
+          <Form.Item
+            label="Email"
+            name="email"
+            rules={[
+              { required: true, message: "Vui lòng điền vào phần email" },
+              {
+                type: "email",
+                message: "Vui lòng nhập đúng định dạng email như sau: abc@gmail.com !",
+              },
+            ]}
+          >
+            <Input placeholder="Enter your email" />
+          </Form.Item>
+          <Form.Item
+            label="Mật khẩu"
+            name="password"
+            rules={[{ required: true, message: "Vui lòng điền vào phần Mật khẩu" }]}
+          >
+            <Input.Password
               placeholder="Enter your password in here"
-              {...register("password", {
-                required: true,
-                minLength: 6,
-              })}
+              iconRender={(visible) =>
+                visible ? <EyeOutlined onClick={handlePassword} /> : <EyeInvisibleOutlined onClick={handlePassword} />
+              }
             />
-            {showPassword ? (
-              <span className="show_password" onClick={handlePassword}>
-                <FaEye />
-              </span>
-            ) : (
-              <span className="hide_password" onClick={handlePassword}>
-                <FaEyeSlash />
-              </span>
-            )}
-
-            {errors.password?.type === "required" && (
-              <p style={{ color: "red" }} role="alert">
-                Vui lòng điền vào phần Mật khẩu
-              </p>
-            )}
-            {errors.password?.type === "minLength" && (
-              <p style={{ color: "red" }} role="alert">
-                Mật khẩu phải từ 6 ký tự trở lên
-              </p>
-            )}
-          </div>
-          <div className="form-control">
-            <label>Xác nhận mật khẩu</label>
-            <input
-              {...register("password_repeat", { required: true })}
-              id="password_repeat"
-              autoComplete="on"
-              type={showConfirmPassword ? "text" : "password"}
+          </Form.Item>
+          <Form.Item
+            label="Xác nhận mật khẩu"
+            name="password_repeat"
+            rules={[{ required: true, message: "Vui lòng điền vào phần Xác nhận mật khẩu" }]}
+          >
+            <Input.Password
               placeholder="Confirm above password"
-            />
-            {showConfirmPassword ? (
-              <span
-                className="showConfirmPassword"
-                onClick={handleConfirmPassword}
-              >
-                <FaEye />
-              </span>
-            ) : (
-              <span
-                className="hideConfirmPassword"
-                onClick={handleConfirmPassword}
-              >
-                <FaEyeSlash />
-              </span>
-            )}
-            {errors.password_repeat?.type === "required" && (
-              <p style={{ color: "red" }} role="alert">
-                Vui lòng điền vào phần Xác nhận mật khẩu
-              </p>
-            )}
-            {/* errors will return when field validation fails  */}
-            {/* here we watch the both password and confirm password filed and if both not match, trigger the validation */}
-            {watch("password") !== watch("password_repeat")
-              ? getValues("password_repeat") && (
-                  <p style={{ color: "red" }} role="alert">
-                    Mật khẩu không trùng khớp
-                  </p>
+              iconRender={(visible) =>
+                visible ? (
+                  <EyeOutlined onClick={handleConfirmPassword} />
+                ) : (
+                  <EyeInvisibleOutlined onClick={handleConfirmPassword} />
                 )
-              : null}
-          </div>
-          <button type="submit">Tạo tài khoản mới</button>
-        </form>
+              }
+            />
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              Tạo tài khoản mới
+            </Button>
+          </Form.Item>
+        </Form>
         <div className="register_account">
           <p>
             Nếu bạn đã có tài khoản rồi
             <br />
-            <span onClick={handleLogin}>Vui lòng ấn vào đây để đăng nhập!</span>
+            <span onClick={() => history.push("/login")}>Vui lòng ấn vào đây để đăng nhập!</span>
           </p>
         </div>
       </section>
-    </>
+    </div>
   );
 };
 

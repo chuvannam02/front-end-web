@@ -172,18 +172,10 @@ const NavBar = () => {
                 </NavLink>
               </>
             )}
-            <div className="dropdown">
-              <button className="dropbtn">Bảng điều khiển</button>
-              <div className="dropdown-content">
-                <NavLink
-                  to="/"
-                  className="navbar-logout"
-                  onClick={handleLogout}
-                >
-                  Đăng xuất
-                </NavLink>
-              </div>
-            </div>
+
+            <NavLink to="/" className="navbar-logout" onClick={handleLogout}>
+              Đăng xuất
+            </NavLink>
           </>
         ) : (
           <>
