@@ -4,7 +4,7 @@ import jwt_decode from "jwt-decode";
 const refreshToken = async (user) => {
   try {
     // let refreshToken1 = Cookies.get("refreshToken"); // => 'value'
-    const res = await axios.post("http://localhost:3000/refresh", user, {
+    const res = await axios.post("https://mern-stack-backend-kw0h.onrender.com/refresh", user, {
       withCredentials: true,
     });
     return res.data;
