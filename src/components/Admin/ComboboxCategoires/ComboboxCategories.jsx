@@ -15,7 +15,7 @@ const ComboboxCategories = ({ selectedCategory, setSelectedCategory }) => {
         const userObject = { ...user };
         const axiosJWT = createAxios(userObject);
         const response = await axiosJWT.get(
-          `http://localhost:3000/api/v1/categories/combobox`,
+          `https://mern-stack-backend-kw0h.onrender.com/api/v1/categories/combobox`,
           {
             headers: {
               token: userObject?.accessToken,
