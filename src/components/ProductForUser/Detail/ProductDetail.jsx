@@ -25,6 +25,7 @@ const ProductDetailed = () => {
   const [photoIndex1, setPhotoIndex1] = useState(0);
   const [isOpen1, setIsOpen1] = useState(false);
   const aProduct = useSelector((state) => state.products?.product?.Product);
+  console.log(aProduct);
   const id = useParams();
   const [isLoading, setIsLoading] = useState(false);
   const [img, setImg] = useState("");
