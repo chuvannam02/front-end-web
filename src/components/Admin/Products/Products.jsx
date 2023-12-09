@@ -161,6 +161,7 @@ const Products = () => {
   const [pageSize, setPageSize] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
   let products = useSelector((state) => state.products.products?.allProducts);
+  console.log(products);
   const dispatch = useDispatch();
   let { data, totalPage } = products || {};
 
