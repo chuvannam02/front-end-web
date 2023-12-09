@@ -24,7 +24,7 @@ const Images = React.memo(({ src, alt, onClick, isActive }) => (
 const ProductDetailed = () => {
   const [photoIndex1, setPhotoIndex1] = useState(0);
   const [isOpen1, setIsOpen1] = useState(false);
-  const aProduct = useSelector((state) => state.products.product?.Product);
+  const aProduct = useSelector((state) => state.products?.product?.Product);
   const id = useParams();
   const [isLoading, setIsLoading] = useState(false);
   const [img, setImg] = useState("");
@@ -39,22 +39,22 @@ const ProductDetailed = () => {
     setIsLoading(true);
   }, []);
   useEffect(() => {
-    if (aProduct && aProduct.data && aProduct.data.images) {
+    if (aProduct && aProduct?.data && aProduct?.data?.images) {
       setImg(
-        typeof aProduct.data.images[0] === "object"
-          ? aProduct.data.images[0].url
-          : aProduct.data.images[0]
+        typeof aProduct?.data?.images[0] === "object"
+          ? aProduct?.data?.images[0].url
+          : aProduct?.data?.images[0]
       );
     }
   }, [aProduct]);
   //   Open Light box when click images
   const images = [
-    typeof aProduct.data.images[0] === "object"
-      ? aProduct.data.images[0].url
-      : aProduct.data.images[0],
-    typeof aProduct.data.images[1] === "object"
-      ? aProduct.data.images[1].url
-      : aProduct.data.images[1],
+    typeof aProduct?.data?.images[0] === "object"
+      ? aProduct?.data?.images[0].url
+      : aProduct?.data?.images[0],
+    typeof aProduct?.data.images[1] === "object"
+      ? aProduct?.data?.images[1].url
+      : aProduct?.data?.images[1],
     typeof aProduct.data.images[2] === "object"
       ? aProduct.data.images[2].url
       : aProduct.data.images[2],
