@@ -85,7 +85,7 @@ const NavBar = () => {
     const fetchCategories = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/v1/categories/combobox-without-auth`
+          `https://mern-stack-backend-kw0h.onrender.com/api/v1/categories/combobox-without-auth`
         );
         setCategories(response.data.data);
       } catch (error) {
