@@ -21,6 +21,7 @@ const AllCategories = () => {
   let categories = useSelector(
     (state) => state.categories.categories?.allCategories
   );
+  console.log(categories);
   // console.log(categories);
   const dispatch = useDispatch();
   let { data, totalPage } = categories || {};
