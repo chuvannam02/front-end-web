@@ -7,7 +7,7 @@ const PayButton = ({ cartItems }) => {
   });
   const handleCheckout = async () => {
     axios
-      .post("http://localhost:3000/api/v1/create-checkout-session", {
+      .post("https://mern-stack-backend-kw0h.onrender.com/api/v1/create-checkout-session", {
         cartItems,
         userId: user._id,
       })
