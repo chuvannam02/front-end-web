@@ -9,7 +9,7 @@ import { Footer } from "antd/es/layout/layout";
 import { Input, Pagination, Select, Alert, Spin } from "antd";
 import { Breadcrumb } from "antd";
 const { Option } = Select;
-import { useGetAllProductsQuery } from "./ProductService";
+import { useGetAllProductsQuery } from "./productService";
 
 const ProductForUser = () => {
   const [searchTerm, setSearchTerm] = useState("");
