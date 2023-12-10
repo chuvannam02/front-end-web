@@ -185,7 +185,7 @@ const Products = () => {
         page: currentPage,
         limit: pageSize,
       })
-    ););
+    ));
   }, [currentPage, pageSize, dispatch, user]);
   let memoizedData = React.useMemo(() => {
     return data?.map((product, index) => ({
