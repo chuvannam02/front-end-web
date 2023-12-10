@@ -335,6 +335,9 @@ export const getAllProducts = createAsyncThunk(
     //   // Nếu đã tải, trả về dữ liệu từ state
     //   return categories[page];
     // }
+        console.log("userObject "+userObject);
+    console.log("page "+page);
+    console.log("limit "+limit);
     try {
       const axiosJWT = createAxios(userObject);
       const response = await axiosJWT.get(
@@ -348,6 +351,7 @@ export const getAllProducts = createAsyncThunk(
       );
       // Nếu chưa tải, gọi API và lưu dữ liệu vào state
       // return { ...response.data, page };
+      console.log("response get all product "+response);
       return response;
     } catch (error) {
       return rejectWithValue("FAILED", error.message);
@@ -357,11 +361,14 @@ export const getAllProducts = createAsyncThunk(
 export const GetAProduct = createAsyncThunk(
   "products/getAProduct",
   async ({ id }, { rejectWithValue }) => {
+    console.log(id);
     try {
       const response = await axios.get(
         "https://mern-stack-backend-kw0h.onrender.com/api/v1/product/find/" + id
       );
+            console.log(response);
       return response;
+
     } catch (error) {
       return rejectWithValue("FAILED", error.message);
     }
@@ -404,6 +411,9 @@ export const getAllCategories = createAsyncThunk(
     //   // Nếu đã tải, trả về dữ liệu từ state
     //   return categories[page];
     // }
+    console.log("userObject "+userObject);
+    console.log("page "+page);
+    console.log("limit "+limit);
     try {
       const axiosJWT = createAxios(userObject);
       const response = await axiosJWT.get(
@@ -417,6 +427,7 @@ export const getAllCategories = createAsyncThunk(
       );
       // Nếu chưa tải, gọi API và lưu dữ liệu vào state
       // return { ...response.data, page };
+      console.log("get all categories "+response);
       return response;
     } catch (error) {
       return rejectWithValue("FAILED", error.message);
