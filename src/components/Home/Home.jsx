@@ -35,7 +35,7 @@ const Home = () => {
         setProducts(products);
       })
       .catch((error) => console.error(error));
-  });
+  },[]);
   const rows = products.reduce((rows, product, index) => {
     if (index % 3 === 0) {
       rows.push([]);
