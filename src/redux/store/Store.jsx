@@ -3,7 +3,7 @@ import authSlice from "../reducer/authSlice";
 import userSlice from "../reducer/userSlice";
 import cartSlice from "../reducer/cartSlice";
 import productSlice from "../reducer/productSlice";
-import { productService } from "../../components/ProductForUser/ProductService";
+import { productService } from "../../components/ProductForUser/productService";
 import orderSlice from "../reducer/orderSlice";
 import {
   persistStore,
